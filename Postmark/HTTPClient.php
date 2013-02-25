@@ -44,7 +44,7 @@ class HTTPClient
     public function __construct($apiKey, $proxy)
     {
         $this->apiKey = $apiKey;
-        $this->proxy = is_array($proxy) ? $proxy : null;
+        $this->proxy = $proxy['server']!='' ? $proxy : null;
         $this->httpHeaders['Accept'] = 'application/json';
         $this->httpHeaders['Content-Type'] = 'application/json';
         $this->httpHeaders['X-Postmark-Server-Token'] =  $this->apiKey;
@@ -82,7 +82,7 @@ class HTTPClient
         $curl = new Curl();
 
         if ($this->proxy) {
-            $url = 'http://' . $this->proxy['authentication'] . '@' . $this->proxy['server'];
+            $url = 'http://' . ($this->proxy['authentication']!='' ? $this->proxy['authentication'].'@' : '') . $this->proxy['server'];
             $proxy_server = new Url($url);
             $curl->setProxy($proxy_server);
         }
