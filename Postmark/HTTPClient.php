@@ -37,6 +37,13 @@ class HTTPClient
     protected $apiKey;
 
     /**
+     * Buzz proxy settings
+     *
+     * @var array
+     */
+    protected $proxy;
+
+    /**
      * Constructor
      *
      * @param string $apiKey
