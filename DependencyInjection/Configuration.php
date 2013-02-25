@@ -33,6 +33,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('from_name')
                     ->defaultTrue()
                 ->end()
+                ->variableNode('proxy')
+                ->end()
             ->end();
 
         return $treeBuilder;
