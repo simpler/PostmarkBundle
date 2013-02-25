@@ -12,7 +12,8 @@
 namespace MZ\PostmarkBundle\Postmark;
 
 use  Buzz\Browser,
-     Buzz\Client\Curl;
+     Buzz\Client\Curl,
+     Buzz\Util\Url;
 
 /**
  * HTTP client use to send requests to postmark api
@@ -40,9 +41,10 @@ class HTTPClient
      *
      * @param string $apiKey
      */
-    public function __construct($apiKey)
+    public function __construct($apiKey, $proxy)
     {
         $this->apiKey = $apiKey;
+        $this->proxy = is_array($proxy) ? $proxy : null;
         $this->httpHeaders['Accept'] = 'application/json';
         $this->httpHeaders['Content-Type'] = 'application/json';
         $this->httpHeaders['X-Postmark-Server-Token'] =  $this->apiKey;
@@ -78,6 +80,13 @@ class HTTPClient
     public function sendRequest($url, $data)
     {
         $curl = new Curl();
+
+        if ($this->proxy) {
+            $url = 'http://' . $this->proxy['authentication'] . '@' . $this->proxy['server'];
+            $proxy_server = new Url($url);
+            $curl->setProxy($proxy_server);
+        }
+
         $browser = new Browser($curl);
         $response = $browser->post($url, $this->httpHeaders, $data);
 

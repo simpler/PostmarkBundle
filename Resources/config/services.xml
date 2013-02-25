@@ -7,6 +7,11 @@
 
     <parameters>
         <parameter key="mz_postmark.api_key" />
+        <parameter key="mz_postmark.proxy" type="collection">
+            <parameter key="server" />
+            <parameter key="port" />
+            <parameter key="authentication" />
+        </parameter>
         <parameter key="mz_postmark.from_email" />
         <parameter key="mz_postmark.from_name" />
         <parameter key="mz_postmark.postmark.client.class">MZ\PostmarkBundle\Postmark\HTTPClient</parameter>
@@ -16,6 +21,7 @@
     <services>
         <service id="postmark.client" class="%mz_postmark.postmark.client.class%">
             <argument>%mz_postmark.api_key%</argument>
+            <argument>%mz_postmark.proxy%</argument>
         </service>
 
         <service id="postmark.message" class="%mz_postmark.postmark.message.class%">
